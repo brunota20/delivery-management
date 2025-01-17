@@ -1,19 +1,10 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import { Draggable } from "@hello-pangea/dnd";
-import {
-  Typography,
-  Button,
-  Card,
-  CardContent,
-  CardActions,
-} from "@mui/material";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
-
 import Delivery from "@/interfaces/Delivery";
 import handleDeleteLogic from "@/hooks/useHandleDelete";
-
 
 interface DeliveryCardProps {
   column_key: string;
@@ -48,41 +39,39 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          style={{
-            ...provided.draggableProps.style,
-            marginBottom: "8px",
-            backgroundColor: snapShot.draggingOver ? "lightgray" : "white",
-          }}
+          className={`mb-4 rounded-md gap-2 shadow-md transition-transform duration-200 ${
+            snapShot.isDragging ? "transform scale-105 bg-gray-200" : ""
+          } ${
+            snapShot.draggingOver
+              ? "bg-gray-200"
+              : isDeleting
+              ? "bg-red-500"
+              : loading
+              ? "bg-gray-400"
+              : "bg-white"
+          }`}          
         >
-          <Card
-            sx={{
-              backgroundColor: isDeleting ? "red" : loading ? "gray" : "white",
-              transition: "background-color 0.3s ease",
-              boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <CardContent>
-              <Typography variant="h6">{delivery.description}</Typography>
-              <Typography color="textSecondary">
-                Status: {delivery.status}
-              </Typography>
-              <Typography color="textSecondary">ID: {delivery.id}</Typography>
-              <Typography color="textSecondary">
-                Timestamp: {new Date(delivery.timestamp * 1000).toLocaleString()}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button
-                size="small"
-                color="error"
-                onClick={() => setIsModalOpen(true)}
-                disabled={loading || isDeleting}
-                sx={{ marginLeft: "auto" }}
-              >
-                {isDeleting ? "Deleting..." : "Delete"}
-              </Button>
-            </CardActions>
-          </Card>
+          <div className="p-4">
+            <h3 className="text-lg font-semibold">{delivery.description}</h3>
+            <p className="text-sm text-gray-600">Status: {delivery.status}</p>
+            <p className="text-sm text-gray-600">ID: {delivery.id}</p>
+            <p className="text-sm text-gray-600">
+              Timestamp: {new Date(delivery.timestamp * 1000).toLocaleString()}
+            </p>
+          </div>
+          <div className="flex justify-end p-2">
+            <button
+              className={`px-4 py-2 text-sm font-medium text-white rounded-md ${
+                isDeleting
+                  ? "bg-red-600 cursor-not-allowed"
+                  : "bg-red-500 hover:bg-red-600"
+              }`}
+              onClick={() => setIsModalOpen(true)}
+              disabled={loading || isDeleting}
+            >
+              {isDeleting ? "Deleting..." : "Delete"}
+            </button>
+          </div>
           <DeleteConfirmationModal
             open={isModalOpen}
             onClose={() => setIsModalOpen(false)}

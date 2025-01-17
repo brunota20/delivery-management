@@ -1,8 +1,7 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
-import { Box } from "@mui/material";
 import FilterDeliveryStatus from "./FilterDeliveryStatus";
 
 import handleUpdateLogic from "@/hooks/useHandleUpdate";
@@ -13,7 +12,10 @@ import KanbanColumn from "./KanbanColumn";
 interface KanbanBoardProps {
   deliveries: Delivery[];
   setDeliveries: React.Dispatch<React.SetStateAction<Delivery[]>>;
-  showNotification: (message: string, severity: "success" | "error" | "warning") => void;
+  showNotification: (
+    message: string,
+    severity: "success" | "error" | "warning"
+  ) => void;
   fetchDeliveries: () => void;
 }
 
@@ -23,10 +25,15 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
   showNotification,
   fetchDeliveries,
 }) => {
-  const [loadingStates, setLoadingStates] = useState<{ [key: string]: boolean }>({});
-  const [groupedDeliveries, setGroupedDeliveries] = useState<{ [key: string]: Delivery[] }>({});
+  const [loadingStates, setLoadingStates] = useState<{ [key: string]: boolean }>(
+    {}
+  );
+  const [groupedDeliveries, setGroupedDeliveries] = useState<{
+    [key: string]: Delivery[];
+  }>({});
 
-  const { filterText, setFilterText, filteredDeliveries } = useDeliveryFilter(deliveries);
+  const { filterText, setFilterText, filteredDeliveries } =
+    useDeliveryFilter(deliveries);
 
   const statusMapping: { [key: string]: string } = {
     0: "Pending",
@@ -40,7 +47,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
       const status = statusMapping[key];
       acc[key] = filteredDeliveries.filter(
         (delivery) => delivery.status === status
-      );
+      ); 
       return acc;
     }, {} as { [key: string]: Delivery[] });
     setGroupedDeliveries(grouped);
@@ -74,7 +81,9 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
   };
 
   const handleDeleteDelivery = (deliveryId: string) => {
-    const updatedDeliveries = deliveries.filter((delivery) => delivery.id !== deliveryId);
+    const updatedDeliveries = deliveries.filter(
+      (delivery) => delivery.id !== deliveryId
+    );
     setDeliveries(updatedDeliveries);
 
     // Re-group deliveries after deletion
@@ -90,25 +99,16 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
   };
 
   return (
-    <Box>
+    <div className="flex-col flex gap-4">
+
       <FilterDeliveryStatus
         filterText={filterText}
         setFilterText={setFilterText}
       />
 
       <DragDropContext onDragEnd={onDragEnd}>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          sx={{
-            my: 4,
-            gap: 2,
-            overflowY: "auto",
-            '@media (max-width: 768px)': {
-              justifyContent: "center",
-              flexWrap: "wrap",
-            },
-          }}
+        <div
+          className="flex justify-between gap-8 overflow-y-auto flex-wrap md:flex-nowrap"
         >
           {Object.entries(statusMapping).map(([key, status]) => (
             <KanbanColumn
@@ -121,9 +121,9 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
               onDeleteDelivery={handleDeleteDelivery}
             />
           ))}
-        </Box>
+        </div>
       </DragDropContext>
-    </Box>
+    </div>
   );
 };
 

@@ -3,8 +3,6 @@ import { Droppable } from "@hello-pangea/dnd";
 import DeliveryCard from "./DeliveryCard";
 import Delivery from "../interfaces/Delivery";
 
-
-// Define the types for the props
 interface KanbanColumnProps {
   column_key: string;
   status: string;
@@ -23,41 +21,33 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({
   onDeleteDelivery,
 }) => {
   return (
-    <Droppable droppableId={column_key}>
-      {provided => (
-        <div
-          ref={provided.innerRef}
-          {...provided.droppableProps}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "16px",
-            backgroundColor: "#f4f5f7",
-            width: "300px",
-            height: "600px",
-            margin: "8px",
-            boxSizing: "border-box",
-            overflowY: "auto",
-            overflowX: "hidden",
-          }}
-        >
-          <h3 style={{ margin: 0 }}>{status}</h3>
-          {groupedDeliveries[column_key]?.map((delivery, index) => (
-            <DeliveryCard
-              key={delivery.id}
-              column_key={column_key}
-              index={index}
-              delivery={delivery}
-              loading={loadingStates[delivery.id] || false}
-              onDeleteDelivery={onDeleteDelivery}
-              groupedDeliveries={groupedDeliveries}
-              setGroupedDeliveries={setGroupedDeliveries}
-            />
-          ))}
-          {provided.placeholder}
-        </div>
-      )}
-    </Droppable>
+    <div className="flex flex-col p-4 bg-gray-100 w-72 h-[600px] gap-4 box-border">
+      <h3 className="text-lg font-bold">{status}</h3>
+
+      <Droppable droppableId={column_key}>
+        {(provided) => (
+          <div
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            className="flex flex-col gap-4 overflow-y-auto overflow-x-hidden h-full"
+          >
+            {groupedDeliveries[column_key]?.map((delivery, index) => (
+              <DeliveryCard
+                key={delivery.id}
+                column_key={column_key}
+                index={index}
+                delivery={delivery}
+                loading={loadingStates[delivery.id] || false}
+                onDeleteDelivery={onDeleteDelivery}
+                groupedDeliveries={groupedDeliveries}
+                setGroupedDeliveries={setGroupedDeliveries}
+              />
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </div>
   );
 };
 

@@ -1,7 +1,7 @@
-"use client"
+"use client";
+
 import React, { useState } from "react";
 import axios from "axios";
-import { Box, Typography, TextField, Button } from "@mui/material";
 
 interface CreateDeliveryProps {
   fetchDeliveries: () => void;
@@ -31,19 +31,29 @@ const CreateDelivery: React.FC<CreateDeliveryProps> = ({ fetchDeliveries, showNo
   };
 
   return (
-    <Box sx={{ my: 4 }}>
-      <Typography variant="h6">Create a New Delivery</Typography>
-      <TextField
-        fullWidth
-        label="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        sx={{ my: 2 }}
-      />
-      <Button variant="contained" color="primary" onClick={handleCreate}>
+    <div className="my-8 flex flex-col gap-4">
+      <h2 className="text-xl font-semibold">Create a New Delivery</h2>
+      <div className="flex flex-col gap-2">
+        <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+          Description
+        </label>
+        <input
+          id="description"
+          type="text"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+        />
+      </div>
+      <div>
+      <button
+        onClick={handleCreate}
+        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
         Create Delivery
-      </Button>
-    </Box>
+      </button>
+      </div>
+    </div>
   );
 };
 
