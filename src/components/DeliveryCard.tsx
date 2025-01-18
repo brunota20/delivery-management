@@ -5,6 +5,7 @@ import { Draggable } from "@hello-pangea/dnd";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import Delivery from "@/interfaces/Delivery";
 import handleDeleteLogic from "@/hooks/useHandleDelete";
+import Button from "./Button";
 
 interface DeliveryCardProps {
   column_key: string;
@@ -60,17 +61,12 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
             </p>
           </div>
           <div className="flex justify-end p-2">
-            <button
-              className={`px-4 py-2 text-sm font-medium text-white rounded-md ${
-                isDeleting
-                  ? "bg-red-600 cursor-not-allowed"
-                  : "bg-red-500 hover:bg-red-600"
-              }`}
-              onClick={() => setIsModalOpen(true)}
-              disabled={loading || isDeleting}
-            >
-              {isDeleting ? "Deleting..." : "Delete"}
-            </button>
+            <Button
+            label={isDeleting ? "Deleting..." : "Delete"}
+            onClick={() => setIsModalOpen(true)}
+            variant="danger"
+            size="small"
+            />
           </div>
           <DeleteConfirmationModal
             open={isModalOpen}

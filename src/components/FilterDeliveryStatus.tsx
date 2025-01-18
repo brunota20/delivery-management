@@ -1,6 +1,8 @@
 // src/components/FilterDeliveryStatus.tsx
 import React from "react";
 import { useDebouncedFunction } from "@/hooks/useDebouncedFunction";
+import Label from "./Label";
+import Input from "./Input";
 
 interface FilterDeliveryStatusProps {
   filterText: string;
@@ -21,16 +23,18 @@ const FilterDeliveryStatus: React.FC<FilterDeliveryStatusProps> = ({
 
   return (
     <div className="w-full">
-      <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
-        Search by Description
-      </label>
-      <input
+      <Label
+        label="Search by Description"
+        htmlFor="search"
+        />
+      <Input
         id="search"
         type="text"
         defaultValue={filterText}
         onChange={handleChange}
-        className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         placeholder="Enter description..."
+      />
+      <input
       />
     </div>
   );

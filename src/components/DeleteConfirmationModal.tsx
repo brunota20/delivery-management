@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "./Button";
 
 interface DeleteConfirmationModalProps {
   open: boolean;
@@ -27,23 +28,19 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
           </p>
         </div>
         <div className="flex justify-end px-6 py-4 space-x-3 border-t">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={onConfirm}
-            disabled={isDeleting}
-            className={`px-4 py-2 text-sm font-medium text-white rounded-md ${
-              isDeleting
-                ? "bg-red-400 cursor-not-allowed"
-                : "bg-red-500 hover:bg-red-600"
-            }`}
-          >
-            {isDeleting ? "Deleting..." : "Delete"}
-          </button>
+          <Button
+          label="Cancel"
+          onClick={onClose}
+          variant="secondary"
+          size="medium"
+          />
+          <Button
+          label="Delete"
+          onClick={onConfirm}
+          variant="danger"
+          size="medium"
+          disabled={isDeleting}
+          />
         </div>
       </div>
     </div>

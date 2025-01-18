@@ -51,6 +51,7 @@ const Home: React.FC = () => {
         </Typography>
         <CreateDelivery
           fetchDeliveries={fetchDeliveries}
+          setDeliveries={setDeliveries}
           showNotification={showNotification}
         />
         <KanbanBoard
