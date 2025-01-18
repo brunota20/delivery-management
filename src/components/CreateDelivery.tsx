@@ -1,17 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import axios from "axios";
 import Button from "./Button";
 import Label from "./Label";
 import Input from "./Input";
+import { createDelivery } from "@/services/deliveriyService";
 
 interface CreateDeliveryProps {
   fetchDeliveries: () => Promise<void>;
   showNotification: (message: string, severity: "success" | "error" | "warning") => void;
 }
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const CreateDelivery: React.FC<CreateDeliveryProps> = ({ fetchDeliveries, showNotification }) => {
   const [description, setDescription] = useState<string>("");
@@ -23,7 +21,7 @@ const CreateDelivery: React.FC<CreateDeliveryProps> = ({ fetchDeliveries, showNo
     }
 
     try {
-      await axios.post(`${API_BASE_URL}/create-delivery`, { description, status: "Pending" });
+      createDelivery(description, "Pending" )
       fetchDeliveries()
       setDescription("");
       showNotification("Delivery created successfully", "success");

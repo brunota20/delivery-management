@@ -3,15 +3,13 @@
 import React, { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
-import axios from "axios";
 import statusMapping from "@/utils/statusMapping";
+import { createDelivery } from "@/services/deliveriyService";
 
 interface CreateDeliveryCardProps {
   column_key: string;
   onDeliveryCreated: () => void;
 }
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const CreateDeliveryCard: React.FC<CreateDeliveryCardProps> = ({
   column_key,
@@ -25,11 +23,8 @@ const CreateDeliveryCard: React.FC<CreateDeliveryCardProps> = ({
 
     setIsCreating(true);
     try {
-      await axios.post(`${API_BASE_URL}/create-delivery`, {
-        description: deliveryName,
-        status: statusMapping[column_key],
-      });
-      onDeliveryCreated(); // Refresh the deliveries
+      await createDelivery(deliveryName, statusMapping[column_key])
+      onDeliveryCreated();
     } catch (error) {
       console.error("Error creating delivery:", error);
     } finally {
