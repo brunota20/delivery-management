@@ -5,17 +5,15 @@ import axios from "axios";
 import Button from "./Button";
 import Label from "./Label";
 import Input from "./Input";
-import Delivery from "@/interfaces/Delivery";
 
 interface CreateDeliveryProps {
-  fetchDeliveries: () => Promise<Delivery[]>;
-  setDeliveries:  React.Dispatch<React.SetStateAction<Delivery[]>>;
+  fetchDeliveries: () => Promise<void>;
   showNotification: (message: string, severity: "success" | "error" | "warning") => void;
 }
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-const CreateDelivery: React.FC<CreateDeliveryProps> = ({ fetchDeliveries, setDeliveries, showNotification }) => {
+const CreateDelivery: React.FC<CreateDeliveryProps> = ({ fetchDeliveries, showNotification }) => {
   const [description, setDescription] = useState<string>("");
 
   const handleCreate = async () => {
@@ -26,8 +24,7 @@ const CreateDelivery: React.FC<CreateDeliveryProps> = ({ fetchDeliveries, setDel
 
     try {
       await axios.post(`${API_BASE_URL}/create-delivery`, { description });
-      const updatedDeliveries = await fetchDeliveries()
-      setDeliveries(updatedDeliveries);
+      fetchDeliveries()
       setDescription("");
       showNotification("Delivery created successfully", "success");
     } catch (error) {
