@@ -5,7 +5,7 @@ import { Draggable } from "@hello-pangea/dnd";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import Delivery from "@/interfaces/Delivery";
 import handleDeleteLogic from "@/hooks/useHandleDelete";
-import Button from "./Button";
+import Button from "../Button";
 
 interface DeliveryCardProps {
   column_key: string;

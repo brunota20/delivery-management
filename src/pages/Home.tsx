@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { Box, Container, Typography, Snackbar, Alert, AlertColor } from "@mui/material";
-import CreateDelivery from "@/components/CreateDelivery";
-import KanbanBoard from "@/components/KanbanBoard";
+import CreateDelivery from "@/components/Delivery/CreateDelivery";
+import KanbanBoard from "@/components/Kanban/KanbanBoard";
 import Delivery from "@/interfaces/Delivery";
 import { fetchDeliveries } from "@/services/deliveriyService";
 

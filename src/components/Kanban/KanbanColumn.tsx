@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Droppable } from "@hello-pangea/dnd";
 import DeliveryCard from "./DeliveryCard";
 import CreateDeliveryCard from "./CreateDeliveryCard";
-import Delivery from "../interfaces/Delivery";
-import Button from "./Button";
+import Delivery from "../../interfaces/Delivery";
+import Button from "../Button";
 
 interface KanbanColumnProps {
   column_key: string;

@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import Input from "./Input";
-import Button from "./Button";
+import Input from "../Input";
+import Button from "../Button";
 import statusMapping from "@/utils/statusMapping";
 import { createDelivery } from "@/services/deliveriyService";
 

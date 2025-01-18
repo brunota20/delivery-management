@@ -1,8 +1,8 @@
 // src/components/FilterDeliveryStatus.tsx
 import React from "react";
 import { useDebouncedFunction } from "@/hooks/useDebouncedFunction";
-import Label from "./Label";
-import Input from "./Input";
+import Label from "../Label";
+import Input from "../Input";
 
 interface FilterDeliveryStatusProps {
   filterText: string;

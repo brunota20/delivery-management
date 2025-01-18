@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
-import FilterDeliveryStatus from "./FilterDeliveryStatus";
+import FilterDeliveryStatus from "../Delivery/FilterDeliveryStatus";
 
 import handleUpdateLogic from "@/hooks/useHandleUpdate";
 import Delivery from "@/interfaces/Delivery";

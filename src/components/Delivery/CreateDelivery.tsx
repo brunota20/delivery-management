@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import Button from "./Button";
-import Label from "./Label";
-import Input from "./Input";
+import Button from "../Button";
+import Label from "../Label";
+import Input from "../Input";
 import { createDelivery } from "@/services/deliveriyService";
 
 interface CreateDeliveryProps {
