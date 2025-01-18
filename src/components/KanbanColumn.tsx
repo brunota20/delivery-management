@@ -12,7 +12,7 @@ interface KanbanColumnProps {
   setGroupedDeliveries: React.Dispatch<React.SetStateAction<{ [key: string]: Delivery[] }>>;
   loadingStates: { [key: string]: boolean };
   onDeleteDelivery: (deliveryId: string) => void;
-  fetchDeliveries: () => void; // Function to refresh deliveries
+  fetchDeliveries: () => void;
 }
 
 const KanbanColumn: React.FC<KanbanColumnProps> = ({
@@ -45,7 +45,6 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({
             setIsCreating(false);
             fetchDeliveries();
           }}
-          onCancel={() => setIsCreating(false)}
         />
       )}
       <Droppable droppableId={column_key}>
