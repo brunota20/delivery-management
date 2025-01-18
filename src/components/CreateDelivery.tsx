@@ -23,7 +23,7 @@ const CreateDelivery: React.FC<CreateDeliveryProps> = ({ fetchDeliveries, showNo
     }
 
     try {
-      await axios.post(`${API_BASE_URL}/create-delivery`, { description });
+      await axios.post(`${API_BASE_URL}/create-delivery`, { description, status: "Pending" });
       fetchDeliveries()
       setDescription("");
       showNotification("Delivery created successfully", "success");

@@ -8,6 +8,7 @@ import handleUpdateLogic from "@/hooks/useHandleUpdate";
 import Delivery from "@/interfaces/Delivery";
 import { useDeliveryFilter } from "@/hooks/useDeliveryFilter";
 import KanbanColumn from "./KanbanColumn";
+import statusMapping from "@/utils/statusMapping";
 
 interface KanbanBoardProps {
   deliveries: Delivery[];
@@ -34,12 +35,6 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
 
   const { filterText, setFilterText, filteredDeliveries } =
     useDeliveryFilter(deliveries);
-
-  const statusMapping: { [key: string]: string } = {
-    0: "Pending",
-    1: "In progress",
-    2: "Completed",
-  };
 
   // Group deliveries by status
   useEffect(() => {
@@ -115,6 +110,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
               key={key}
               column_key={key}
               status={status}
+              fetchDeliveries={fetchDeliveries}
               groupedDeliveries={groupedDeliveries}
               setGroupedDeliveries={setGroupedDeliveries}
               loadingStates={loadingStates}

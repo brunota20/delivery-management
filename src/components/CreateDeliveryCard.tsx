@@ -1,0 +1,71 @@
+"use client";
+
+import React, { useState } from "react";
+import Input from "./Input";
+import Button from "./Button";
+import axios from "axios";
+import statusMapping from "@/utils/statusMapping";
+
+interface CreateDeliveryCardProps {
+  column_key: string;
+  onDeliveryCreated: () => void; // Function to refresh deliveries
+  onCancel: () => void; // Function to cancel the creation process
+}
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+const CreateDeliveryCard: React.FC<CreateDeliveryCardProps> = ({
+  column_key,
+  onDeliveryCreated,
+  onCancel,
+}) => {
+  const [deliveryName, setDeliveryName] = useState("");
+  const [isCreating, setIsCreating] = useState(false);
+
+  const handleCreateDelivery = async () => {
+    if (!deliveryName.trim()) return;
+
+    setIsCreating(true);
+    try {
+      await axios.post(`${API_BASE_URL}/create-delivery`, {
+        description: deliveryName,
+        status: statusMapping[column_key],
+      });
+      onDeliveryCreated(); // Refresh the deliveries
+    } catch (error) {
+      console.error("Error creating delivery:", error);
+    } finally {
+      setIsCreating(false);
+    }
+  };
+
+  return (
+    <div className="p-4 bg-white rounded-md shadow-md">
+      <h3 className="text-lg font-semibold mb-2">Create New Delivery</h3>
+      <Input
+        id="delivery-name"
+        type="text"
+        value={deliveryName}
+        onChange={(e) => setDeliveryName(e.target.value)}
+        placeholder="Enter delivery name"
+      />
+      <div className="flex justify-end gap-2 mt-4">
+        <Button
+          label="Cancel"
+          onClick={onCancel}
+          variant="secondary"
+          size="small"
+        />
+        <Button
+          label={isCreating ? "Creating..." : "Create"}
+          onClick={handleCreateDelivery}
+          disabled={isCreating || !deliveryName.trim()}
+          variant="primary"
+          size="small"
+        />
+      </div>
+    </div>
+  );
+};
+
+export default CreateDeliveryCard;

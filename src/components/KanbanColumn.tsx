@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Droppable } from "@hello-pangea/dnd";
 import DeliveryCard from "./DeliveryCard";
+import CreateDeliveryCard from "./CreateDeliveryCard";
 import Delivery from "../interfaces/Delivery";
+import Button from "./Button";
 
 interface KanbanColumnProps {
   column_key: string;
@@ -10,6 +12,7 @@ interface KanbanColumnProps {
   setGroupedDeliveries: React.Dispatch<React.SetStateAction<{ [key: string]: Delivery[] }>>;
   loadingStates: { [key: string]: boolean };
   onDeleteDelivery: (deliveryId: string) => void;
+  fetchDeliveries: () => void; // Function to refresh deliveries
 }
 
 const KanbanColumn: React.FC<KanbanColumnProps> = ({
@@ -19,11 +22,32 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({
   setGroupedDeliveries,
   loadingStates,
   onDeleteDelivery,
+  fetchDeliveries,
 }) => {
+  const [isCreating, setIsCreating] = useState(false);
+
   return (
     <div className="flex flex-col p-4 bg-gray-100 w-72 h-[600px] gap-4 box-border">
-      <h3 className="text-lg font-bold">{status}</h3>
-
+      <div className="flex flex-row justify-between">
+        <h3 className="text-lg font-bold">{status}</h3>
+        {!isCreating && (
+          <Button
+            label="+"
+            onClick={() => setIsCreating(true)}
+            size="small"
+          />
+        )}
+      </div>
+      {isCreating && (
+        <CreateDeliveryCard
+          column_key={column_key}
+          onDeliveryCreated={() => {
+            setIsCreating(false);
+            fetchDeliveries();
+          }}
+          onCancel={() => setIsCreating(false)}
+        />
+      )}
       <Droppable droppableId={column_key}>
         {(provided) => (
           <div
