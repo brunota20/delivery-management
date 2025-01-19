@@ -21,7 +21,7 @@ const CreateDelivery: React.FC<CreateDeliveryProps> = ({ fetchDeliveries, showNo
     }
 
     try {
-      createDelivery(description, "Pending" )
+      await createDelivery(description, "Pending" )
       fetchDeliveries()
       setDescription("");
       showNotification("Delivery created successfully", "success");

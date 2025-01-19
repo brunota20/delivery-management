@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
 import { useState, useEffect } from "react";
-import { Box, Container, Typography, Snackbar, Alert, AlertColor } from "@mui/material";
 import CreateDelivery from "@/components/Delivery/CreateDelivery";
 import KanbanBoard from "@/components/Kanban/KanbanBoard";
 import Delivery from "@/interfaces/Delivery";
 import { fetchDeliveries } from "@/services/deliveriyService";
+import { RainbowKitButton } from "@/components/RaibowKitButton";
 
 interface Notification {
   open: boolean;
   message: string;
-  severity: AlertColor;
+  severity: "info" | "success" | "warning" | "error";
 }
 
 const Home: React.FC = () => {
@@ -35,7 +35,7 @@ const Home: React.FC = () => {
     fetchAndSetDeliveries();
   }, []);
 
-  const showNotification = (message: string, severity: AlertColor) => {
+  const showNotification = (message: string, severity: "info" | "success" | "warning" | "error") => {
     setNotification({ open: true, message, severity });
   };
 
@@ -44,11 +44,12 @@ const Home: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="md">
-      <Box sx={{ my: 4 }}>
-        <Typography variant="h4" align="center" gutterBottom>
-          Delivery Tracker
-        </Typography>
+    <div className="max-w-screen-md mx-auto px-4 py-8">
+      <div className="flex flex-col items-center mb-6">
+        <h1 className="text-3xl font-bold text-center mb-4">Delivery Tracker</h1>
+        <RainbowKitButton />
+      </div>
+      <div className="space-y-6">
         <CreateDelivery
           fetchDeliveries={fetchAndSetDeliveries}
           showNotification={showNotification}
@@ -59,22 +60,34 @@ const Home: React.FC = () => {
           showNotification={showNotification}
           fetchDeliveries={fetchAndSetDeliveries}
         />
-      </Box>
+      </div>
 
-      <Snackbar
-        open={notification.open}
-        autoHideDuration={4000}
-        onClose={handleCloseNotification}
-      >
-        <Alert
-          onClose={handleCloseNotification}
-          severity={notification.severity}
-          sx={{ width: "100%" }}
+      {/* Notification */}
+      {notification.open && (
+        <div
+          className={`fixed bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded shadow-lg text-white z-50 ${
+            notification.severity === "success"
+              ? "bg-green-500"
+              : notification.severity === "error"
+              ? "bg-red-500"
+              : notification.severity === "warning"
+              ? "bg-yellow-500"
+              : "bg-blue-500"
+          }`}
+          role="alert"
         >
-          {notification.message}
-        </Alert>
-      </Snackbar>
-    </Container>
+          <div className="flex items-center justify-between">
+            <span>{notification.message}</span>
+            <button
+              onClick={handleCloseNotification}
+              className="ml-4 text-white hover:text-gray-200 focus:outline-none"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
