@@ -1,3 +1,4 @@
+import { updateDeliveryStatus } from "@/services/deliveryService";
 import HTTP_STATUS from "@/utils/httpStatus";
 import axios from "axios";
 
@@ -26,10 +27,7 @@ const handleUpdateLogic = async ({
   }
 
   try {
-    const response = await axios.put(`${API_BASE_URL}/update-delivery`, {
-      id: selectedDelivery,
-      status: selectedStatus,
-    });
+    const response = await updateDeliveryStatus(selectedDelivery, selectedStatus)
 
     if (response.status === HTTP_STATUS.NO_CONTENT) {
       setLoading(true);

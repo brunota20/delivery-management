@@ -9,6 +9,7 @@ import Delivery from "@/interfaces/Delivery";
 import { useDeliveryFilter } from "@/hooks/useDeliveryFilter";
 import KanbanColumn from "./KanbanColumn";
 import statusMapping from "@/utils/statusMapping";
+import { updateDeliveryStatus } from "@/services/deliveryService";
 
 interface KanbanBoardProps {
   deliveries: Delivery[];
@@ -62,6 +63,8 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
     );
 
     setDeliveries(updatedDeliveries);
+
+    await updateDeliveryStatus(draggableId, statusMapping[destination.droppableId])
 
     await handleUpdateLogic({
       selectedDelivery: draggableId,

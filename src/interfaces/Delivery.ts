@@ -4,7 +4,7 @@ interface Delivery {
   id: string;
   description: string;
   status: string;
-  hex: string;
+  customer: string;
   timestamp: number;
 }
 

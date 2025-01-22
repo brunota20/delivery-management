@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Button from "../Button";
 import Label from "../Label";
 import Input from "../Input";
-import { createDelivery } from "@/services/deliveriyService";
+import { createDelivery } from "@/services/deliveryService";
 
 interface CreateDeliveryProps {
   fetchDeliveries: () => Promise<void>;

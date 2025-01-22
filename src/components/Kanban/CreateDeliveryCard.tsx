@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Input from "../Input";
 import Button from "../Button";
 import statusMapping from "@/utils/statusMapping";
-import { createDelivery } from "@/services/deliveriyService";
+import { createDelivery } from "@/services/deliveryService";
 
 interface CreateDeliveryCardProps {
   column_key: string;

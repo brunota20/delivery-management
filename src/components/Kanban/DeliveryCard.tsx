@@ -31,7 +31,7 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
 
   return (
     <Draggable
-      draggableId={delivery.id}
+      draggableId={delivery.id.toString()}
       index={index}
       isDragDisabled={loading || isDeleting}
     >
@@ -55,9 +55,9 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
           <div className="p-4">
             <h3 className="text-lg font-semibold">{delivery.description}</h3>
             <p className="text-sm text-gray-600">Status: {delivery.status}</p>
-            <p className="text-sm text-gray-600">ID: {delivery.id}</p>
+            <p className="text-sm text-gray-600">ID: {delivery.id.toString()}</p>
             <p className="text-sm text-gray-600">
-              Timestamp: {new Date(delivery.timestamp * 1000).toLocaleString()}
+            Timestamp: {new Date(Number(delivery.timestamp) * 1000).toLocaleString()}
             </p>
           </div>
           <div className="flex justify-end p-2">

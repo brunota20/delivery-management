@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import CreateDelivery from "@/components/Delivery/CreateDelivery";
 import KanbanBoard from "@/components/Kanban/KanbanBoard";
 import Delivery from "@/interfaces/Delivery";
-import { fetchDeliveries } from "@/services/deliveriyService";
 import { RainbowKitButton } from "@/components/RaibowKitButton";
+import { connectToContract } from "@/services/connectContract";
+import { Contract } from "ethers";
 
 interface Notification {
   open: boolean;
@@ -14,6 +15,7 @@ interface Notification {
 }
 
 const Home: React.FC = () => {
+  const [contract, setContract] = useState<Contract | null>(null);
   const [deliveries, setDeliveries] = useState<Delivery[]>([]);
   const [notification, setNotification] = useState<Notification>({
     open: false,
@@ -22,9 +24,10 @@ const Home: React.FC = () => {
   });
 
   const fetchAndSetDeliveries = async () => {
+    if (!contract) return;
     try {
-      const deliveriesData = await fetchDeliveries();
-      setDeliveries(deliveriesData);
+      const deliveries = await contract.getDeliveries();
+      setDeliveries(deliveries);
     } catch (error) {
       console.error("Error fetching deliveries:", error);
       showNotification("Failed to fetch deliveries", "error");
@@ -32,8 +35,24 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchAndSetDeliveries();
+    const initContract = async () => {
+      try {
+        const connectedContract = await connectToContract();
+        setContract(connectedContract);
+      } catch (error) {
+        console.error("Error connecting to contract:", error);
+        showNotification("Failed to connect to the contract", "error");
+      }
+    };
+
+    initContract();
   }, []);
+
+  useEffect(() => {
+    if (contract) {
+      fetchAndSetDeliveries();
+    }
+  }, [contract]);
 
   const showNotification = (message: string, severity: "info" | "success" | "warning" | "error") => {
     setNotification({ open: true, message, severity });
